@@ -1,0 +1,2 @@
+machine imap.protonmail.com login yournamehere@protonmail.com port 1143 password write-password-here
+machine smtp.protonmail.com login yournamehere@protonmail.com port 1025 password write-password-here

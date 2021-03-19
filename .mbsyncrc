@@ -1,0 +1,59 @@
+#For another example .mbsyncrc, see /usr/share/doc/isync/examples/mbsyncrc.sample
+#This file belongs in your home directory
+IMAPAccount protonmail
+Host 127.0.0.1
+Port 1143
+User #TYPE YOUR USERNAME HERE
+#Pass PASSWORD_PROVIDED_BY_BRIDGE
+#PassCmd will prompt you for password since you should have encrypted the password Protonmail Bridge gave you
+#with epa-encrypt-file (and removed the original .authinfo file).
+#The curious reader is referred to https://gist.github.com/areina/3879626 for the ~/.authinfo step.
+PassCmd "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.authinfo.gpg | awk 'FNR == 1 {print $8}'"
+SSLType STARTTLS
+SSLVersions TLSv1.3
+#Generate the certificate by running the following: openssl s_client -starttls imap -connect 127.0.0.1:1143 -showcerts
+CertificateFile ~/.cert/protonmail.cert
+
+IMAPStore protonmail-remote
+Account protonmail
+
+MaildirStore protonmail-local
+Path ~/.mail/protonmail/
+Inbox ~/.mail/protonmail/inbox/
+Trash Trash
+
+#Make some more channels if you want, I don't care.
+#For these, refer to mbsync's man pages if you want to change the settings. Isync's documentation online is lacking
+Channel protonmail-inbox
+Master :protonmail-remote:"Inbox"
+Slave :protonmail-local:"inbox"
+Create Near
+Sync All
+SyncState *
+ 
+Channel protonmail-sent
+Master :protonmail-remote:"Sent"
+Slave :protonmail-local:"sent"
+Create Near
+Sync All
+SyncState *
+ 
+Channel protonmail-trash
+Master :protonmail-remote:"Trash"
+Slave :protonmail-local:"trash"
+Create Near
+Sync All
+SyncState *
+ 
+Channel protonmail-spam
+Master :protonmail-remote:"Spam"
+Slave :protonmail-local:"spam"
+Create Near
+Sync All
+SyncState *
+ 
+Group protonmail
+Channel protonmail-inbox
+Channel protonmail-sent
+Channel protonmail-trash
+Channel protonmail-spam
