@@ -19,13 +19,13 @@ Account protonmail
 
 MaildirStore protonmail-local
 Path ~/.mail/protonmail/
-Inbox ~/.mail/protonmail/inbox/
+Inbox ~/.mail/inbox/
 Trash Trash
 
 #Make some more channels if you want, I don't care.
 #For these, refer to mbsync's man pages if you want to change the settings. Isync's documentation online is lacking
 Channel protonmail-inbox
-Master :protonmail-remote:"Inbox"
+Master :protonmail-remote:"INBOX"
 Slave :protonmail-local:"inbox"
 Create Near
 Sync All
